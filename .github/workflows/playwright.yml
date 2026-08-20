@@ -1,4 +1,3 @@
-```yaml
 name: E2E QA Automation - Playwright CI/CD
 
 on:
@@ -271,4 +270,3 @@ jobs:
           echo "======================================"
           echo "All Playwright tests PASSED"
           echo "======================================"
-```
