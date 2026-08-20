@@ -1,27 +1,95 @@
-name: Playwright Tests
+name: E2E QA Automation - Playwright CI/CD
+
+# Ye pipeline automatically chalti hai jab bhi code push ya PR ho
 on:
   push:
-    branches: [ main, master ]
+    branches: [main]
   pull_request:
-    branches: [ main, master ]
+    branches: [main]
+  workflow_dispatch:   # Manually bhi "Run workflow" button se chala sakte hain
+
 jobs:
   test:
-    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write   # gh-pages branch par push karne ke liye zaroori
+
+    steps:
+      # 1) Code checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Node.js setup
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3) Dependencies install (Build stage)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4) Playwright browsers install
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # 5) Run Playwright tests (Test stage)
+      - name: Run Playwright tests
+        run: npx playwright test
+        continue-on-error: true   # taake report upload ho sake chahe test fail ho
+        id: playwright_tests
+        
+
+      # 6) Generate Allure report
+      - name: Generate Allure report
+        if: always()
+        run: npx allure generate --clean allure-results -o allure-report
+
+      # 7) Upload Playwright HTML report as artifact
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      # 8) Upload Allure report as artifact
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 14
+
+      # 9) Publish Allure report to GitHub Pages (live shareable link)
+      - name: Prepare Pages deployment folder
+        if: always()
+        run: |
+          mkdir -p pages-deploy/runs/${{ github.run_number }}
+          cp -r allure-report/* pages-deploy/
+          cp -r allure-report/* pages-deploy/runs/${{ github.run_number }}/
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: pages-deploy
+          keep_files: true
+
+      # 10) Fail the pipeline explicitly if tests failed (after reports are saved)
+      - name: Check test result
+        if: steps.playwright_tests.outcome == 'failure'
+        run: exit 1
+
+  deploy:
+    needs: test
+    if: success()
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - name: Deploy step (placeholder)
+        run: echo "Tests passed — deploy step yahan add karein (jaise FTP, Vercel, server SSH waghera)"
