@@ -1,0 +1,10 @@
+{
+  "validUser": {
+    "username": "admin",
+    "password": "admin123"
+  },
+  "profile": {
+    "name": "Admin User",
+    "email": "admin@example.com"
+  }
+}

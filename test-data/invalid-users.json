@@ -1,0 +1,10 @@
+{
+  "invalidCredentials": {
+    "username": "invalidUser",
+    "password": "wrongPassword"
+  },
+  "emptyCredentials": {
+    "username": "",
+    "password": ""
+  }
+}

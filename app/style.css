@@ -1,0 +1,289 @@
+/* ==========================================================
+   PLAYWRIGHT CI/CD DEMO
+   FINAL STYLE.CSS
+   ========================================================== */
+
+body{
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg,#eef5ff,#ffffff);
+    color:#222;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+
+.navbar{
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.navbar-brand{
+    font-size:1.5rem;
+    font-weight:700;
+}
+
+.nav-link{
+    font-weight:500;
+}
+
+.nav-link:hover{
+    color:#fff !important;
+}
+
+/* ==========================
+   HOME PAGE
+========================== */
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+}
+
+.hero h1{
+    font-size:3.5rem;
+    font-weight:700;
+}
+
+.hero p{
+    font-size:1.2rem;
+    color:#555;
+}
+
+.hero img{
+    width:100%;
+    border-radius:18px;
+    transition:.35s;
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+.hero img:hover{
+    transform:scale(1.02);
+}
+
+.feature-card{
+    border:none;
+    border-radius:18px;
+    transition:.3s;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.feature-card:hover{
+    transform:translateY(-8px);
+}
+
+.feature-card i{
+    font-size:2rem;
+    color:#0d6efd;
+}
+
+/* ==========================
+   LOGIN PAGE
+========================== */
+
+.login-section{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+}
+
+.login-image img{
+    width:100%;
+    border-radius:20px;
+    transition:.35s;
+    box-shadow:0 12px 28px rgba(0,0,0,.15);
+}
+
+.login-image img:hover{
+    transform:scale(1.02);
+}
+
+.login-card{
+    border:none;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(0,0,0,.15);
+}
+
+.login-card .card-body{
+    padding:45px;
+}
+
+.login-icon{
+    font-size:5rem;
+    color:#0d6efd;
+}
+
+.login-card h2{
+    font-weight:700;
+}
+
+.form-control{
+    border-radius:10px;
+    padding:12px;
+}
+
+.form-control:focus{
+    box-shadow:none;
+    border-color:#0d6efd;
+}
+
+.input-group .btn{
+    border-radius:0 10px 10px 0;
+}
+
+.btn-primary{
+    border-radius:10px;
+    transition:.3s;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
+
+#message{
+    min-height:24px;
+}
+
+/* ==========================
+   DASHBOARD
+========================== */
+
+.sidebar{
+    background:#0d6efd;
+    min-height:100vh;
+}
+
+.sidebar a{
+    color:white;
+    display:block;
+    padding:14px 18px;
+    text-decoration:none;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,.15);
+}
+
+.dashboard-card{
+    border:none;
+    border-radius:18px;
+    transition:.3s;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.dashboard-card:hover{
+    transform:translateY(-5px);
+}
+
+.dashboard-card i{
+    font-size:2rem;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.table{
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.table thead{
+    background:#0d6efd;
+    color:white;
+}
+
+/* ==========================
+   PROFILE
+========================== */
+
+.profile-card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+
+/* ==========================
+   SETTINGS
+========================== */
+
+.settings-card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+footer{
+    background:#212529;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:60px;
+}
+
+/* ==========================
+   DARK MODE
+========================== */
+
+.dark-mode{
+    background:#121212;
+    color:white;
+}
+
+.dark-mode .card{
+    background:#1f1f1f;
+    color:white;
+}
+
+.dark-mode .table{
+    color:white;
+}
+
+.dark-mode .navbar{
+    background:#000 !important;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+.hero{
+    text-align:center;
+}
+
+.login-section{
+    text-align:center;
+}
+
+.hero h1{
+    font-size:2.4rem;
+}
+
+.login-card{
+    margin-top:30px;
+}
+
+.login-image{
+    margin-bottom:25px;
+}
+
+}
+
+@media(max-width:576px){
+
+.hero h1{
+    font-size:2rem;
+}
+
+.login-card .card-body{
+    padding:25px;
+}
+
+}
