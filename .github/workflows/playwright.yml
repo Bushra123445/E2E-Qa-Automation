@@ -1,125 +1,210 @@
+```yaml
 name: E2E QA Automation - Playwright CI/CD
 
 on:
   push:
     branches: [main]
+
   pull_request:
     branches: [main]
+
   workflow_dispatch:
 
+# ============================================================
+# GLOBAL PERMISSIONS
+# ============================================================
 permissions:
   contents: write
   pages: write
   id-token: write
 
+
 jobs:
 
-  # =========================================================
-  # 1. BUILD + DEPLOY APPLICATION
-  # =========================================================
-  build-deploy:
-    name: Build & Deploy Demo Application
+  # ============================================================
+  # 1. BUILD APPLICATION
+  # ============================================================
+  build:
+    name: Build Application
     runs-on: ubuntu-latest
 
     steps:
+
+      # --------------------------------------------------------
+      # Checkout
+      # --------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --------------------------------------------------------
+      # Node.js
+      # --------------------------------------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
 
+      # --------------------------------------------------------
+      # Install dependencies
+      # --------------------------------------------------------
       - name: Install dependencies
         run: npm ci
 
-      # -----------------------------------------------------
-      # Build application
-      # -----------------------------------------------------
+      # --------------------------------------------------------
+      # Build static application
+      # --------------------------------------------------------
       - name: Build application
         run: |
-          echo "Building application..."
+          echo "======================================"
+          echo "Building E2E QA Automation Application"
+          echo "======================================"
+
+          rm -rf dist
           mkdir -p dist
 
-          cp -r *.html dist/
-          cp -r *.css dist/ 2>/dev/null || true
-          cp -r *.js dist/ 2>/dev/null || true
-          cp -r assets dist/ 2>/dev/null || true
+          # Application is inside /app
+          cp -r app/* dist/
 
-          echo "Build completed."
-          ls -la dist
+          echo ""
+          echo "Build completed successfully."
+          echo ""
+          echo "Contents of dist:"
+          find dist -maxdepth 2 -type f
 
-      # -----------------------------------------------------
-      # Deploy application to GitHub Pages
-      # -----------------------------------------------------
-      - name: Deploy application to GitHub Pages
+
+      # --------------------------------------------------------
+      # Upload build artifact
+      # --------------------------------------------------------
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-build
+          path: dist/
+          retention-days: 14
+
+
+  # ============================================================
+  # 2. DEPLOY APPLICATION TO GITHUB PAGES
+  # ============================================================
+  deploy:
+    name: Deploy Application to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # --------------------------------------------------------
+      # Checkout
+      # --------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --------------------------------------------------------
+      # Download build
+      # --------------------------------------------------------
+      - name: Download application artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: application-build
+          path: dist/
+
+      # --------------------------------------------------------
+      # Deploy
+      # --------------------------------------------------------
+      - name: Deploy application
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          force_orphan: false
+          keep_files: false
+
+      - name: Deployment completed
+        run: |
+          echo "======================================"
+          echo "Application deployed successfully!"
+          echo "======================================"
+          echo ""
+          echo "GitHub Pages:"
+          echo "https://bushra123445.github.io/E2E-Qa-Automation/"
 
 
-  # =========================================================
-  # 2. WAIT + RUN PLAYWRIGHT
-  # =========================================================
+  # ============================================================
+  # 3. PLAYWRIGHT E2E TESTING
+  # ============================================================
   test:
     name: Playwright E2E Tests
-    needs: build-deploy
+    needs: deploy
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
-    permissions:
-      contents: read
-
     steps:
 
+      # --------------------------------------------------------
+      # Checkout
+      # --------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --------------------------------------------------------
+      # Node.js
+      # --------------------------------------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
 
+      # --------------------------------------------------------
+      # Install dependencies
+      # --------------------------------------------------------
       - name: Install dependencies
         run: npm ci
 
+      # --------------------------------------------------------
+      # Install Playwright browsers
+      # --------------------------------------------------------
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # -----------------------------------------------------
-      # Wait for GitHub Pages deployment
-      # -----------------------------------------------------
-      - name: Wait for GitHub Pages
+      # --------------------------------------------------------
+      # Wait for GitHub Pages
+      # --------------------------------------------------------
+      - name: Wait for GitHub Pages deployment
         run: |
           echo "Waiting for GitHub Pages deployment..."
           sleep 30
 
-      # -----------------------------------------------------
+      # --------------------------------------------------------
+      # Verify deployed application
+      # --------------------------------------------------------
+      - name: Verify deployed application
+        run: |
+          echo "Checking deployed application..."
+
+          curl -f \
+            https://bushra123445.github.io/E2E-Qa-Automation/
+
+          echo ""
+          echo "Application is reachable."
+
+
+      # --------------------------------------------------------
       # Run Playwright tests
-      # -----------------------------------------------------
+      # --------------------------------------------------------
       - name: Run Playwright tests
         id: playwright_tests
         continue-on-error: true
-        run: npx playwright test
-
-      # -----------------------------------------------------
-      # Generate Allure report
-      # -----------------------------------------------------
-      - name: Generate Allure report
-        if: always()
+        env:
+          PLAYWRIGHT_BASE_URL: https://bushra123445.github.io/E2E-Qa-Automation
         run: |
-          npx allure generate allure-results \
-            --clean \
-            -o allure-report
+          npx playwright test
 
-      # -----------------------------------------------------
-      # Upload Playwright report
-      # -----------------------------------------------------
+
+      # ========================================================
+      # 4. PLAYWRIGHT HTML REPORT
+      # ========================================================
       - name: Upload Playwright HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -128,9 +213,21 @@ jobs:
           path: playwright-report/
           retention-days: 14
 
-      # -----------------------------------------------------
-      # Upload Allure report
-      # -----------------------------------------------------
+
+      # ========================================================
+      # 5. ALLURE REPORT
+      # ========================================================
+      - name: Generate Allure report
+        if: always()
+        run: |
+          npx allure generate allure-results \
+            --clean \
+            -o allure-report
+
+
+      # --------------------------------------------------------
+      # Upload Allure report as artifact
+      # --------------------------------------------------------
       - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v4
@@ -139,40 +236,39 @@ jobs:
           path: allure-report/
           retention-days: 14
 
-      # -----------------------------------------------------
-      # Prepare Allure Pages
-      # -----------------------------------------------------
-      - name: Prepare Allure Pages
+
+      # ========================================================
+      # 6. SAVE TEST EXECUTION SUMMARY
+      # ========================================================
+      - name: Create test summary
         if: always()
         run: |
-          mkdir -p pages-deploy
+          echo "# E2E QA Automation Test Execution" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Run Number:** ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Application:** E2E QA Automation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** GitHub Pages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://bushra123445.github.io/E2E-Qa-Automation/" >> $GITHUB_STEP_SUMMARY
 
-          cp -r allure-report/* pages-deploy/
 
-          mkdir -p pages-deploy/runs/${{ github.run_number }}
-
-          cp -r allure-report/* \
-            pages-deploy/runs/${{ github.run_number }}/
-
-          echo "Allure report prepared."
-
-      # -----------------------------------------------------
-      # Deploy Allure report
-      # -----------------------------------------------------
-      - name: Deploy Allure report
-        if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./pages-deploy
-          publish_branch: allure-report
-          keep_files: true
-
-      # -----------------------------------------------------
-      # Fail workflow if Playwright tests failed
-      # -----------------------------------------------------
+      # ========================================================
+      # 7. FAIL PIPELINE IF TESTS FAILED
+      # ========================================================
       - name: Check Playwright test result
         if: steps.playwright_tests.outcome == 'failure'
         run: |
-          echo "Playwright tests failed."
+          echo "======================================"
+          echo "Playwright tests FAILED"
+          echo "======================================"
           exit 1
+
+      - name: Tests passed
+        if: steps.playwright_tests.outcome == 'success'
+        run: |
+          echo "======================================"
+          echo "All Playwright tests PASSED"
+          echo "======================================"
+```
