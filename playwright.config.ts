@@ -1,71 +1,106 @@
+```ts
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
 
-  // ==============================
-  // Test Directory
-  // ==============================
+  // ==========================================================
+  // TEST DIRECTORY
+  // ==========================================================
   testDir: './test',
 
-  // ==============================
-  // Test Execution
-  // ==============================
+  // Run tests in parallel
   fullyParallel: true,
 
+  // Prevent accidental test.only in CI
   forbidOnly: !!process.env.CI,
 
+  // Retry failed tests in CI
   retries: process.env.CI ? 2 : 0,
 
-  workers: process.env.CI ? 1 : undefined,
+  // Workers
+  workers: process.env.CI ? 2 : undefined,
 
-  // ==============================
-  // Reporters
-  // ==============================
+  // ==========================================================
+  // TEST TIMEOUT
+  // ==========================================================
+  timeout: 30 * 1000,
+
+  expect: {
+    timeout: 10 * 1000,
+  },
+
+  // ==========================================================
+  // REPORTERS
+  // ==========================================================
   reporter: [
+    ['list'],
     ['html', {
       outputFolder: 'playwright-report',
       open: 'never',
     }],
-
-    ['allure-playwright', {
-      resultsDir: 'allure-results',
-    }],
+    ['allure-playwright'],
   ],
 
-  // ==============================
-  // Shared Test Settings
-  // ==============================
+  // ==========================================================
+  // GLOBAL SETTINGS
+  // ==========================================================
   use: {
 
-    // Base URL
-    baseURL: 'http://127.0.0.1:8081',
-
-    // Screenshot
-    screenshot: 'on',
-
-    // Video
-    video: 'on',
-
-    // Trace
-    trace: 'on',
+    // --------------------------------------------------------
+    // LOCAL:
+    // http://127.0.0.1:8081
+    //
+    // CI:
+    // GitHub Pages URL
+    // --------------------------------------------------------
+    baseURL:
+      process.env.PLAYWRIGHT_BASE_URL ||
+      'http://127.0.0.1:8081',
 
     // Browser
     headless: true,
 
-    // Viewport
+    // Browser viewport
     viewport: {
       width: 1366,
       height: 768,
     },
 
-    // Timeouts
-    actionTimeout: 15000,
-    navigationTimeout: 30000,
+    // --------------------------------------------------------
+    // Screenshots
+    // --------------------------------------------------------
+    screenshot: 'on',
+
+    // --------------------------------------------------------
+    // Video
+    // --------------------------------------------------------
+    video: 'on',
+
+    // --------------------------------------------------------
+    // Trace
+    // --------------------------------------------------------
+    trace: 'on',
+
+    // --------------------------------------------------------
+    // Action timeout
+    // --------------------------------------------------------
+    actionTimeout: 15 * 1000,
+
+    // --------------------------------------------------------
+    // Navigation timeout
+    // --------------------------------------------------------
+    navigationTimeout: 30 * 1000,
+
+    // --------------------------------------------------------
+    // Ignore HTTPS errors
+    // --------------------------------------------------------
+    ignoreHTTPSErrors: true,
   },
 
-  // ==============================
-  // Browser Projects
-  // ==============================
+
+  // ==========================================================
+  // BROWSER PROJECTS
+  // ==========================================================
   projects: [
 
     {
@@ -88,14 +123,33 @@ export default defineConfig({
         ...devices['Desktop Safari'],
       },
     },
+
   ],
 
-  // ==============================
-  // Local Web Server
-  // ==============================
-  webServer: {
-    command: 'npx http-server . -p 8081',
-    url: 'http://127.0.0.1:8081',
-    reuseExistingServer: true,
-  },
+
+  // ==========================================================
+  // LOCAL WEB SERVER
+  // ==========================================================
+  //
+  // LOCAL:
+  // npm test
+  // → starts app on 127.0.0.1:8081
+  //
+  // CI:
+  // GitHub Actions
+  // → webServer disabled
+  // → tests use PLAYWRIGHT_BASE_URL
+  //
+  // ==========================================================
+
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: 'npx http-server app -p 8081',
+        url: 'http://127.0.0.1:8081',
+        reuseExistingServer: true,
+        timeout: 120 * 1000,
+      },
+
 });
+```
