@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Charts | Student Portal</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+     <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid px-4">
+
+            <a class="navbar-brand fw-bold fs-4" href="dashboard.html">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                Student Portal
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="student.html">
+                            <i class="bi bi-people me-1"></i>
+                            Students
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">
+                            <i class="bi bi-person-circle me-1"></i>
+                            Profile
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html">
+                            <i class="bi bi-gear me-1"></i>
+                            Settings
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="charts.html">
+                            <i class="bi bi-bar-chart-line me-1"></i>
+                            Charts
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="login.html">
+                            <i class="bi bi-box-arrow-right me-1"></i>
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="container-fluid px-4 py-5">
+
+        <!-- Page Header -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+            <div>
+                <h1 class="fw-bold mb-2">
+                    Analytics & Charts
+                </h1>
+
+                <p class="text-muted mb-0">
+                    View student enrollment, course distribution and academic performance.
+                </p>
+            </div>
+
+            <button class="btn btn-primary mt-3 mt-md-0">
+                <i class="bi bi-download me-2"></i>
+                Export Report
+            </button>
+
+        </div>
+
+
+        <!-- ================= SUMMARY CARDS ================= -->
+
+        <div class="row g-4 mb-4">
+
+            <!-- Total Students -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <p class="text-muted mb-1">
+                                    Total Students
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+                                    1,250
+                                </h2>
+                            </div>
+
+                            <div class="fs-1 text-primary">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                        </div>
+
+                        <small class="text-success">
+                            <i class="bi bi-arrow-up"></i>
+                            12% this month
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Active Students -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <p class="text-muted mb-1">
+                                    Active Students
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+                                    1,105
+                                </h2>
+                            </div>
+
+                            <div class="fs-1 text-success">
+                                <i class="bi bi-person-check-fill"></i>
+                            </div>
+
+                        </div>
+
+                        <small class="text-success">
+                            <i class="bi bi-arrow-up"></i>
+                            8% this month
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Courses -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <p class="text-muted mb-1">
+                                    Total Courses
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+                                    48
+                                </h2>
+                            </div>
+
+                            <div class="fs-1 text-warning">
+                                <i class="bi bi-book-fill"></i>
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted">
+                            Across all departments
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Reports -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <p class="text-muted mb-1">
+                                    Reports
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+                                    326
+                                </h2>
+                            </div>
+
+                            <div class="fs-1 text-info">
+                                <i class="bi bi-bar-chart-fill"></i>
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted">
+                            Generated this year
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ================= CHARTS ================= -->
+
+        <div class="row g-4">
+
+            <!-- Enrollment Chart -->
+            <div class="col-12 col-lg-8">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-1 fw-bold">
+                            <i class="bi bi-graph-up-arrow text-primary me-2"></i>
+                            Student Enrollment
+                        </h5>
+
+                        <small class="text-muted">
+                            Monthly student enrollment overview
+                        </small>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div
+                            class="chart-placeholder d-flex align-items-center justify-content-center"
+                            style="height: 320px;"
+                        >
+
+                            <div class="text-center">
+
+                                <i class="bi bi-bar-chart-line display-1 text-primary"></i>
+
+                                <h5 class="mt-3">
+                                    Enrollment Chart
+                                </h5>
+
+                                <p class="text-muted mb-0">
+                                    Jan &nbsp; Feb &nbsp; Mar &nbsp; Apr &nbsp; May &nbsp; Jun
+                                </p>
+
+                                <div class="mt-3">
+                                    <span class="badge bg-primary me-2">
+                                        Jan: 180
+                                    </span>
+
+                                    <span class="badge bg-success me-2">
+                                        Mar: 220
+                                    </span>
+
+                                    <span class="badge bg-info">
+                                        Jun: 310
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Course Distribution -->
+            <div class="col-12 col-lg-4">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-white py-3">
+
+                        <h5 class="mb-1 fw-bold">
+                            <i class="bi bi-pie-chart-fill text-success me-2"></i>
+                            Course Distribution
+                        </h5>
+
+                        <small class="text-muted">
+                            Students by course
+                        </small>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div
+                            class="d-flex align-items-center justify-content-center"
+                            style="height: 320px;"
+                        >
+
+                            <div class="text-center">
+
+                                <i class="bi bi-pie-chart display-1 text-success"></i>
+
+                                <h5 class="mt-3">
+                                    Course Distribution
+                                </h5>
+
+                                <div class="mt-3">
+
+                                    <div class="mb-2">
+                                        <span class="badge bg-primary">
+                                            Computer Science
+                                        </span>
+                                        35%
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <span class="badge bg-success">
+                                            Business
+                                        </span>
+                                        25%
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <span class="badge bg-warning text-dark">
+                                            Engineering
+                                        </span>
+                                        20%
+                                    </div>
+
+                                    <div>
+                                        <span class="badge bg-info">
+                                            Data Science
+                                        </span>
+                                        20%
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Performance Chart -->
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-white py-3">
+
+                        <h5 class="mb-1 fw-bold">
+                            <i class="bi bi-activity text-danger me-2"></i>
+                            Academic Performance
+                        </h5>
+
+                        <small class="text-muted">
+                            Average student performance by month
+                        </small>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div
+                            class="chart-placeholder d-flex align-items-center justify-content-center"
+                            style="height: 280px;"
+                        >
+
+                            <div class="text-center">
+
+                                <i class="bi bi-graph-up display-1 text-danger"></i>
+
+                                <h5 class="mt-3">
+                                    Performance Trend
+                                </h5>
+
+                                <p class="text-muted">
+                                    Average performance has improved consistently
+                                    throughout the year.
+                                </p>
+
+                                <div>
+
+                                    <span class="badge bg-danger me-2">
+                                        January: 72%
+                                    </span>
+
+                                    <span class="badge bg-warning text-dark me-2">
+                                        March: 78%
+                                    </span>
+
+                                    <span class="badge bg-success">
+                                        June: 86%
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Bootstrap JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+
+</body>
+</html>

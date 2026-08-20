@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Portal | Login</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+     <script src="script.js" defer></script>
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-mortarboard-fill"></i>
+                Student Portal
+            </a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Login</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center align-items-center">
+
+            <!-- Left Side -->
+
+            <div class="col-lg-6 mb-4">
+
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900"
+                    class="img-fluid rounded shadow">
+
+            </div>
+
+            <!-- Right Side -->
+
+            <div class="col-lg-5">
+
+                <div class="card border-0 shadow-lg rounded-4">
+
+                    <div class="card-body p-5">
+
+                        <div class="text-center">
+
+                            <i class="bi bi-person-circle display-1 text-primary"></i>
+
+                            <h2 class="fw-bold mt-3">
+                                Welcome Back
+                            </h2>
+
+                            <p class="text-muted">
+                                Login to continue
+                            </p>
+
+                        </div>
+
+                        <!-- Username -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Username
+                            </label>
+
+                            <input
+                                id="username"
+                                type="text"
+                                class="form-control form-control-lg"
+                                placeholder="Enter Username">
+
+                        </div>
+
+                        <!-- Password -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <div class="input-group">
+
+                                <input
+                                    id="password"
+                                    type="password"
+                                    class="form-control form-control-lg"
+                                    placeholder="Enter Password">
+
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="togglePassword">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Remember -->
+
+                        <div
+                            class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div class="form-check">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="remember">
+
+                                <label
+                                    class="form-check-label"
+                                    for="remember">
+
+                                    Remember me
+
+                                </label>
+
+                            </div>
+
+                            <a href="#">
+                                Forgot Password?
+                            </a>
+
+                        </div>
+
+                        <!-- Error -->
+
+                        <div
+                            id="message"
+                            class="text-danger fw-semibold mb-3 text-center">
+
+                        </div>
+
+                        <!-- Login -->
+
+                        <button
+                            id="loginButton"
+                            class="btn btn-primary btn-lg w-100">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            Login
+
+                        </button>
+
+                        <hr>
+
+                        <div class="text-center">
+
+                            <small class="text-muted">
+
+                                Demo Credentials
+
+                                <br>
+
+                                <strong>
+
+                                    admin / admin123
+
+                                </strong>
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+
+    <footer class="bg-dark text-white text-center p-3 mt-5">
+
+        © 2026 Student Portal | QA Automation Demo
+
+    </footer>
+
+    <!-- Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
