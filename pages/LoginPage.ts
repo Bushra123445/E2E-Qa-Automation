@@ -23,7 +23,9 @@ export class LoginPage {
     waitUntil: 'domcontentloaded',
     });
 
- 
+ await expect(this.username).toBeVisible({
+      timeout: 15000,
+    });
   }
 
   async login(username: string, password: string) {
