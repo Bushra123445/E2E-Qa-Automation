@@ -19,8 +19,8 @@ export class LoginPage {
   }
 
   async goto() {
-    await this.page.goto('login.html', {
-      waitUntil: 'domcontentloaded',
+ await this.page.goto('https://YOUR-GITHUB-USERNAME.github.io/E2E-Qa-Automation/login.html', {
+    waitUntil: 'domcontentloaded',
     });
 
     await expect(this.username).toBeVisible({
