@@ -1,62 +1,75 @@
-name: Build Test Deploy (E2E QA Automation)
+name: Build, Deploy & Test
 
 on:
   push:
-    branches: [main]
-
-  workflow_dispatch:
+    branches:
+      - main
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
 
-  # ==========================================
+  # =========================
   # 1. BUILD
-  # ==========================================
-
+  # =========================
   build:
-    name: Build
+    name: Build Application
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Verify Application Files
-        run: |
-          echo "Checking application files..."
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
 
-          test -f app/index.html
-          test -f app/login.html
-          test -f app/dashboard.html
-          test -f app/style.css
-          test -f app/script.js
+      - name: Install Dependencies
+        run: npm ci
 
-          echo "Application files verified successfully."
-
-      - name: Build Application
-        run: |
-          echo "Building Student Portal..."
-          echo "Static HTML/CSS/JS application - no compilation required."
-          echo "Build completed successfully."
+      - name: Prepare GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./app
 
 
-  # ==========================================
-  # 2. TEST
-  # ==========================================
-
-  test:
-    name: Playwright Tests
+  # =========================
+  # 2. DEPLOY
+  # =========================
+  deploy:
+    name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
 
-    steps:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-      - name: Checkout Repository
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+
+  # =========================
+  # 3. PLAYWRIGHT TEST
+  # =========================
+  test:
+    name: Playwright E2E Tests
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -73,32 +86,12 @@ jobs:
       - name: Run Playwright Tests
         run: npx playwright test
 
-      - name: Generate Allure Report
-        if: ${{ !cancelled() }}
-        run: npx allure generate allure-results -o allure-report
-
       - name: Upload Playwright Report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 30
-
-      - name: Upload Allure Report
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report/
-          retention-days: 30
-
-      - name: Upload Allure Results
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: allure-results/
           retention-days: 30
 
       - name: Upload Test Results
@@ -108,34 +101,3 @@ jobs:
           name: test-results
           path: test-results/
           retention-days: 30
-
-
-  # ==========================================
-  # 3. DEPLOY
-  # ==========================================
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: test
-    runs-on: ubuntu-latest
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Website
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: './app'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
