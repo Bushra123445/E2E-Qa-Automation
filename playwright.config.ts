@@ -28,7 +28,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL,
+     baseURL: 'https://YOUR-GITHUB-USERNAME.github.io/E2E-Qa-Automation/',
 
     headless: true,
 
