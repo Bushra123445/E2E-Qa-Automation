@@ -1,12 +1,12 @@
+
 import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage {
   readonly page: Page;
+
   readonly username: Locator;
   readonly password: Locator;
   readonly loginButton: Locator;
-  readonly togglePassword: Locator;
-  readonly message: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -14,16 +14,23 @@ export class LoginPage {
     this.username = page.locator('#username');
     this.password = page.locator('#password');
     this.loginButton = page.locator('#loginButton');
-    this.togglePassword = page.locator('#togglePassword');
-    this.message = page.locator('#message');
   }
 
   async goto() {
- await this.page.goto('https://YOUR-GITHUB-USERNAME.github.io/E2E-Qa-Automation/login.html', {
-    waitUntil: 'domcontentloaded',
+    // Do NOT use /login.html because GitHub Pages uses a repository path.
+    await this.page.goto('login.html', {
+      waitUntil: 'domcontentloaded',
     });
 
- await expect(this.username).toBeVisible({
+    await expect(this.username).toBeVisible({
+      timeout: 15000,
+    });
+
+    await expect(this.password).toBeVisible({
+      timeout: 15000,
+    });
+
+    await expect(this.loginButton).toBeVisible({
       timeout: 15000,
     });
   }
@@ -32,11 +39,5 @@ export class LoginPage {
     await this.username.fill(username);
     await this.password.fill(password);
     await this.loginButton.click();
-  }
-
-  async verifyLoginPage() {
-    await expect(this.username).toBeVisible();
-    await expect(this.password).toBeVisible();
-    await expect(this.loginButton).toBeVisible();
   }
 }
