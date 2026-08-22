@@ -1,9 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseURL =
-  process.env.BASE_URL ||
-  'https://bushra123445.github.io/E2E-Qa-Automation';
-
 export default defineConfig({
   testDir: './test',
 
@@ -18,29 +14,34 @@ export default defineConfig({
   timeout: 30_000,
 
   expect: {
-    timeout: 10_000,
+    timeout: 15_000,
   },
 
   reporter: [
-    ['line'],
+    ['list'],
     ['html', { open: 'never' }],
     ['allure-playwright'],
   ],
 
   use: {
-     baseURL: 'https://YOUR-GITHUB-USERNAME.github.io/E2E-Qa-Automation/',
+    baseURL: 'http://127.0.0.1:5500',
 
-    headless: true,
+    trace: 'on-first-retry',
 
-    screenshot: 'on',
+    screenshot: 'only-on-failure',
 
-    video: 'on',
-
-    trace: 'on',
+    video: 'retain-on-failure',
 
     actionTimeout: 15_000,
 
     navigationTimeout: 30_000,
+  },
+
+  webServer: {
+    command: 'npx http-server . -p 5500',
+    url: 'http://127.0.0.1:5500',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
   },
 
   projects: [
