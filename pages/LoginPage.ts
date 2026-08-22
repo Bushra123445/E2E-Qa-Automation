@@ -2,10 +2,10 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage {
   readonly page: Page;
-
   readonly username: Locator;
   readonly password: Locator;
   readonly loginButton: Locator;
+  readonly message: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,6 +13,7 @@ export class LoginPage {
     this.username = page.locator('#username');
     this.password = page.locator('#password');
     this.loginButton = page.locator('#loginButton');
+    this.message = page.locator('#message');
   }
 
   async goto() {
@@ -38,5 +39,9 @@ export class LoginPage {
     await this.password.fill(password);
 
     await this.loginButton.click();
+  }
+
+  async loginWithValidCredentials() {
+    await this.login('admin@example.com', 'Admin@123');
   }
 }
