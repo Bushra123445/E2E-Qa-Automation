@@ -1,4 +1,3 @@
-
 import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage {
@@ -41,4 +40,3 @@ export class LoginPage {
     await this.loginButton.click();
   }
 }
-
