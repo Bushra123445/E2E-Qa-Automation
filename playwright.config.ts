@@ -11,33 +11,34 @@ export default defineConfig({
 
   workers: process.env.CI ? 2 : undefined,
 
+  timeout: 30_000,
+
+  expect: {
+    timeout: 10_000,
+  },
+
   reporter: [
-    ['line'],
-    ['html', { open: 'never' }],
-    ['allure-playwright'],
+    ['list'],
+    ['html', {
+      outputFolder: 'playwright-report',
+      open: 'never',
+    }],
   ],
 
   use: {
-    // Local = http://127.0.0.1:5500
-    // GitHub Actions = BASE_URL environment variable
-    baseURL: process.env.BASE_URL || 'http://127.0.0.1:5500',
+    baseURL:
+      process.env.BASE_URL ||
+      'http://127.0.0.1:5500/app/',
 
-    headless: true,
-
-    viewport: {
-      width: 1366,
-      height: 768,
-    },
+    trace: 'on-first-retry',
 
     screenshot: 'only-on-failure',
 
     video: 'retain-on-failure',
 
-    trace: 'retain-on-failure',
+    actionTimeout: 15_000,
 
-    actionTimeout: 15000,
-
-    navigationTimeout: 30000,
+    navigationTimeout: 30_000,
   },
 
   projects: [
