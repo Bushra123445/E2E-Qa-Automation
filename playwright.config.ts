@@ -11,37 +11,33 @@ export default defineConfig({
 
   workers: process.env.CI ? 2 : undefined,
 
-  timeout: 30_000,
-
-  expect: {
-    timeout: 15_000,
-  },
-
   reporter: [
-    ['list'],
+    ['line'],
     ['html', { open: 'never' }],
     ['allure-playwright'],
   ],
 
   use: {
-    baseURL: 'http://127.0.0.1:5500',
+    // Local = http://127.0.0.1:5500
+    // GitHub Actions = BASE_URL environment variable
+    baseURL: process.env.BASE_URL || 'http://127.0.0.1:5500',
 
-    trace: 'on-first-retry',
+    headless: true,
+
+    viewport: {
+      width: 1366,
+      height: 768,
+    },
 
     screenshot: 'only-on-failure',
 
     video: 'retain-on-failure',
 
-    actionTimeout: 15_000,
+    trace: 'retain-on-failure',
 
-    navigationTimeout: 30_000,
-  },
+    actionTimeout: 15000,
 
-  webServer: {
-    command: 'npx http-server . -p 5500',
-    url: 'http://127.0.0.1:5500',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    navigationTimeout: 30000,
   },
 
   projects: [
@@ -49,20 +45,6 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-      },
-    },
-
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
       },
     },
   ],
