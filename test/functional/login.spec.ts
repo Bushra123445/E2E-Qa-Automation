@@ -17,16 +17,12 @@ test.describe('End to End User Flow', () => {
       await expect(loginPage.loginButton).toBeVisible();
     });
 
-    await test.step('Login with valid credentials', async () => {
-      await loginPage.login('admin', 'admin123');
+    await test.step('Login with Valid Credentials', async () => {
+      await loginPage.loginWithValidCredentials();
     });
 
     await test.step('Verify Dashboard', async () => {
-      await expect(page).toHaveURL(/dashboard\.html/, {
-        timeout: 10000,
-      });
-
-      await expect(page.locator('body')).toBeVisible();
+      await loginPage.verifyLoginSuccess();
     });
 
   });
