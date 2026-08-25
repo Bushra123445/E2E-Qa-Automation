@@ -21,8 +21,12 @@ test.describe('End to End User Flow', () => {
       await loginPage.loginWithValidCredentials();
     });
 
-    await test.step('Verify Dashboard', async () => {
-      await loginPage.verifyLoginSuccess();
+    await test.step('Verify Login Successful', async () => {
+      await loginPage.verifyLoginSuccessful();
+    });
+
+    await test.step('Verify Dashboard URL', async () => {
+      await expect(page).toHaveURL(/dashboard\.html/);
     });
 
   });
