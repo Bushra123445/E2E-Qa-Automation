@@ -44,10 +44,4 @@ export class LoginPage {
   async loginWithValidCredentials() {
     await this.login('admin', 'admin123');
   }
-
-  async verifyLoginSuccess() {
-    await expect(this.page).toHaveURL(/dashboard\.html/, {
-      timeout: 10000,
-    });
-  }
 }
