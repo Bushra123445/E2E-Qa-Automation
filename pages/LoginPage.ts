@@ -21,23 +21,37 @@ export class LoginPage {
       waitUntil: 'domcontentloaded',
     });
 
-    await expect(this.username).toBeVisible({ timeout: 15000 });
-    await expect(this.password).toBeVisible({ timeout: 15000 });
-    await expect(this.loginButton).toBeVisible({ timeout: 15000 });
+    await expect(this.username).toBeVisible({
+      timeout: 15000,
+    });
+
+    await expect(this.password).toBeVisible({
+      timeout: 15000,
+    });
+
+    await expect(this.loginButton).toBeVisible({
+      timeout: 15000,
+    });
   }
 
   async login(username: string, password: string) {
     await this.username.fill(username);
     await this.password.fill(password);
 
+    await expect(this.loginButton).toBeEnabled();
+
     await this.loginButton.click();
+
+    // Wait for either successful navigation or an error message
+    await this.page.waitForTimeout(500);
   }
 
   async loginWithValidCredentials() {
+    // ACTUAL DEMO CREDENTIALS
     await this.login('admin', 'admin123');
   }
 
-  async verifyLoginSuccess() {
+  async verifyLoginSuccessful() {
     await expect(this.page).toHaveURL(/dashboard\.html/, {
       timeout: 10000,
     });
