@@ -22,11 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const isLoggedIn =
         localStorage.getItem("isLoggedIn") === "true";
 
-
-    // ==========================================
-    // PROTECT PAGES
-    // ==========================================
-
     if (
         protectedPages.includes(currentPage) &&
         !isLoggedIn
@@ -37,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // LOGIN
+    // LOGIN PAGE
     // ==========================================
 
     const loginButton =
@@ -65,14 +60,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const password =
                 passwordInput.value.trim();
 
-
-            // Clear previous message
             message.textContent = "";
 
-
-            // ==================================
+            // ==========================================
             // EMPTY FIELD VALIDATION
-            // ==================================
+            // ==========================================
 
             if (username === "" || password === "") {
 
@@ -83,16 +75,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            // ==================================
+            // ==========================================
             // VALID DEMO CREDENTIALS
-            // ==================================
+            // ==========================================
 
             if (
                 username === "admin" &&
                 password === "admin123"
             ) {
 
-                // Save login session
                 localStorage.setItem(
                     "isLoggedIn",
                     "true"
@@ -104,9 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                // ==================================
+                // ==========================================
                 // REMEMBER ME
-                // ==================================
+                // ==========================================
 
                 if (remember && remember.checked) {
 
@@ -132,9 +123,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // ==================================
-                // REDIRECT TO DASHBOARD
-                // ==================================
+                // ==========================================
+                // GO TO DASHBOARD
+                // ==========================================
 
                 window.location.href =
                     "dashboard.html";
@@ -176,7 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 } else {
 
-                    passwordField.type = "password";
+                    passwordField.type =
+                        "password";
 
                     togglePassword.innerHTML =
                         '<i class="bi bi-eye"></i>';
@@ -232,7 +224,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 event.preventDefault();
 
-
                 // Clear login session
                 localStorage.removeItem(
                     "isLoggedIn"
@@ -242,8 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "username"
                 );
 
-
-                // Redirect to login
+                // Go to login
                 window.location.replace(
                     "login.html"
                 );
@@ -327,38 +317,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // ==========================================
-// BACK BUTTON / BFCache PROTECTION
+// BACK BUTTON / BFCACHE PROTECTION
 // ==========================================
 
-window.addEventListener(
-    "pageshow",
-    function () {
+window.addEventListener("pageshow", function () {
 
-        const protectedPages = [
-            "dashboard.html",
-            "student.html",
-            "profile.html",
-            "settings.html",
-            "charts.html"
-        ];
+    const protectedPages = [
+        "dashboard.html",
+        "student.html",
+        "profile.html",
+        "settings.html",
+        "charts.html"
+    ];
 
-        const currentPage =
-            window.location.pathname
-                .split("/")
-                .pop();
+    const currentPage =
+        window.location.pathname.split("/").pop();
 
-        const isLoggedIn =
-            localStorage.getItem("isLoggedIn") === "true";
+    const isLoggedIn =
+        localStorage.getItem("isLoggedIn") === "true";
 
+    if (
+        protectedPages.includes(currentPage) &&
+        !isLoggedIn
+    ) {
 
-        if (
-            protectedPages.includes(currentPage) &&
-            !isLoggedIn
-        ) {
-
-            window.location.replace(
-                "login.html"
-            );
-        }
+        window.location.replace("login.html");
     }
-);
+
+});
