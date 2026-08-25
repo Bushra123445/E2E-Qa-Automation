@@ -22,17 +22,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const isLoggedIn =
         localStorage.getItem("isLoggedIn") === "true";
 
-    // If user is not logged in and tries
-    // to open a protected page
-    if (protectedPages.includes(currentPage) && !isLoggedIn) {
-
+    // Protect pages that require login
+    if (
+        protectedPages.includes(currentPage) &&
+        !isLoggedIn
+    ) {
         window.location.replace("login.html");
         return;
     }
 
 
     // ==========================================
-    // LOGIN PAGE
+    // LOGIN
     // ==========================================
 
     const loginButton =
@@ -40,7 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (loginButton) {
 
-        loginButton.addEventListener("click", function () {
+        loginButton.addEventListener("click", function (event) {
+
+            event.preventDefault();
 
             const usernameInput =
                 document.getElementById("username");
@@ -54,15 +57,23 @@ document.addEventListener("DOMContentLoaded", function () {
             const remember =
                 document.getElementById("remember");
 
+            if (!usernameInput || !passwordInput || !message) {
+                return;
+            }
+
             const username =
                 usernameInput.value.trim();
 
             const password =
                 passwordInput.value.trim();
 
+            // Clear previous message
             message.textContent = "";
 
-            // Empty field validation
+            // ==========================================
+            // EMPTY FIELD VALIDATION
+            // ==========================================
+
             if (username === "" || password === "") {
 
                 message.textContent =
@@ -71,12 +82,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Demo credentials
+
+            // ==========================================
+            // VALID DEMO CREDENTIALS
+            // ==========================================
+
             if (
                 username === "admin" &&
                 password === "admin123"
             ) {
 
+                // Set login session
                 localStorage.setItem(
                     "isLoggedIn",
                     "true"
@@ -87,8 +103,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     username
                 );
 
-                // Remember username
-                if (remember && remember.checked) {
+
+                // ==========================================
+                // REMEMBER ME
+                // ==========================================
+
+                if (
+                    remember &&
+                    remember.checked
+                ) {
 
                     localStorage.setItem(
                         "rememberMe",
@@ -111,12 +134,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
                 }
 
-                // Go to Dashboard
+
+                // ==========================================
+                // REDIRECT TO DASHBOARD
+                // ==========================================
+
                 window.location.href =
                     "dashboard.html";
 
             } else {
 
+                // Invalid credentials
                 message.textContent =
                     "Invalid username or password.";
             }
@@ -135,7 +163,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordField =
         document.getElementById("password");
 
-    if (togglePassword && passwordField) {
+    if (
+        togglePassword &&
+        passwordField
+    ) {
 
         togglePassword.addEventListener(
             "click",
@@ -146,7 +177,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     "password"
                 ) {
 
-                    passwordField.type = "text";
+                    passwordField.type =
+                        "text";
 
                     togglePassword.innerHTML =
                         '<i class="bi bi-eye-slash"></i>';
@@ -159,13 +191,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     togglePassword.innerHTML =
                         '<i class="bi bi-eye"></i>';
                 }
+
             }
         );
     }
 
 
     // ==========================================
-    // REMEMBER ME
+    // REMEMBER ME - RESTORE USERNAME
     // ==========================================
 
     const remember =
@@ -186,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.getItem("savedUsername");
 
         if (savedUsername) {
+
             usernameInput.value =
                 savedUsername;
         }
@@ -209,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 event.preventDefault();
 
-                // Clear session
+                // Clear login session
                 localStorage.removeItem(
                     "isLoggedIn"
                 );
@@ -218,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "username"
                 );
 
-                // Go to login
+                // Redirect to login
                 window.location.replace(
                     "login.html"
                 );
@@ -242,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
     usernameElements.forEach(function (element) {
 
         if (loggedUsername) {
+
             element.textContent =
                 loggedUsername;
         }
@@ -283,7 +318,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // Restore dark mode
+    // ==========================================
+    // RESTORE DARK MODE
+    // ==========================================
+
     if (
         localStorage.getItem("darkMode") ===
         "true"
@@ -301,28 +339,34 @@ document.addEventListener("DOMContentLoaded", function () {
 // BACK BUTTON / BFCACHE PROTECTION
 // ==========================================
 
-window.addEventListener("pageshow", function () {
+window.addEventListener(
+    "pageshow",
+    function () {
 
-    const protectedPages = [
-        "dashboard.html",
-        "student.html",
-        "profile.html",
-        "settings.html",
-        "charts.html"
-    ];
+        const protectedPages = [
+            "dashboard.html",
+            "student.html",
+            "profile.html",
+            "settings.html",
+            "charts.html"
+        ];
 
-    const currentPage =
-        window.location.pathname.split("/").pop();
+        const currentPage =
+            window.location.pathname
+                .split("/")
+                .pop();
 
-    const isLoggedIn =
-        localStorage.getItem("isLoggedIn") === "true";
+        const isLoggedIn =
+            localStorage.getItem("isLoggedIn") === "true";
 
-    if (
-        protectedPages.includes(currentPage) &&
-        !isLoggedIn
-    ) {
+        if (
+            protectedPages.includes(currentPage) &&
+            !isLoggedIn
+        ) {
 
-        window.location.replace("login.html");
+            window.location.replace(
+                "login.html"
+            );
+        }
     }
-
-});
+);
