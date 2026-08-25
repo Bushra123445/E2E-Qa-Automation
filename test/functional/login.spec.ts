@@ -22,11 +22,9 @@ test.describe('End to End User Flow', () => {
     });
 
     await test.step('Verify Dashboard', async () => {
-      await loginPage.verifyLoginSuccess();
-    });
-
-    await test.step('Verify Dashboard Page Loaded', async () => {
-      await expect(page.locator('body')).toBeVisible();
+      await expect(page).toHaveURL(/dashboard\.html/, {
+        timeout: 10000,
+      });
     });
 
   });
