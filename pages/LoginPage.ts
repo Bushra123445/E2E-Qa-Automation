@@ -42,6 +42,6 @@ export class LoginPage {
   }
 
   async loginWithValidCredentials() {
-    await this.login('admin@example.com', 'Admin@123');
+    await this.login('admin', 'admin123');
   }
 }
