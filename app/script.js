@@ -22,7 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const isLoggedIn =
         localStorage.getItem("isLoggedIn") === "true";
 
-    // Protect pages that require login
+
+    // ==========================================
+    // PROTECT PAGES
+    // ==========================================
+
     if (
         protectedPages.includes(currentPage) &&
         !isLoggedIn
@@ -41,9 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (loginButton) {
 
-        loginButton.addEventListener("click", function (event) {
-
-            event.preventDefault();
+        loginButton.addEventListener("click", function () {
 
             const usernameInput =
                 document.getElementById("username");
@@ -57,22 +59,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const remember =
                 document.getElementById("remember");
 
-            if (!usernameInput || !passwordInput || !message) {
-                return;
-            }
-
             const username =
                 usernameInput.value.trim();
 
             const password =
                 passwordInput.value.trim();
 
+
             // Clear previous message
             message.textContent = "";
 
-            // ==========================================
+
+            // ==================================
             // EMPTY FIELD VALIDATION
-            // ==========================================
+            // ==================================
 
             if (username === "" || password === "") {
 
@@ -83,16 +83,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            // ==========================================
+            // ==================================
             // VALID DEMO CREDENTIALS
-            // ==========================================
+            // ==================================
 
             if (
                 username === "admin" &&
                 password === "admin123"
             ) {
 
-                // Set login session
+                // Save login session
                 localStorage.setItem(
                     "isLoggedIn",
                     "true"
@@ -104,14 +104,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                // ==========================================
+                // ==================================
                 // REMEMBER ME
-                // ==========================================
+                // ==================================
 
-                if (
-                    remember &&
-                    remember.checked
-                ) {
+                if (remember && remember.checked) {
 
                     localStorage.setItem(
                         "rememberMe",
@@ -135,16 +132,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // ==========================================
+                // ==================================
                 // REDIRECT TO DASHBOARD
-                // ==========================================
+                // ==================================
 
                 window.location.href =
                     "dashboard.html";
 
             } else {
 
-                // Invalid credentials
                 message.textContent =
                     "Invalid username or password.";
             }
@@ -163,35 +159,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordField =
         document.getElementById("password");
 
-    if (
-        togglePassword &&
-        passwordField
-    ) {
+    if (togglePassword && passwordField) {
 
         togglePassword.addEventListener(
             "click",
             function () {
 
                 if (
-                    passwordField.type ===
-                    "password"
+                    passwordField.type === "password"
                 ) {
 
-                    passwordField.type =
-                        "text";
+                    passwordField.type = "text";
 
                     togglePassword.innerHTML =
                         '<i class="bi bi-eye-slash"></i>';
 
                 } else {
 
-                    passwordField.type =
-                        "password";
+                    passwordField.type = "password";
 
                     togglePassword.innerHTML =
                         '<i class="bi bi-eye"></i>';
                 }
-
             }
         );
     }
@@ -243,6 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 event.preventDefault();
 
+
                 // Clear login session
                 localStorage.removeItem(
                     "isLoggedIn"
@@ -251,6 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.removeItem(
                     "username"
                 );
+
 
                 // Redirect to login
                 window.location.replace(
@@ -336,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // ==========================================
-// BACK BUTTON / BFCACHE PROTECTION
+// BACK BUTTON / BFCache PROTECTION
 // ==========================================
 
 window.addEventListener(
@@ -358,6 +349,7 @@ window.addEventListener(
 
         const isLoggedIn =
             localStorage.getItem("isLoggedIn") === "true";
+
 
         if (
             protectedPages.includes(currentPage) &&
