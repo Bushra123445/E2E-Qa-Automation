@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // LOGIN PAGE
+    // LOGIN
     // ==========================================
 
     const loginButton =
@@ -54,6 +54,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const remember =
                 document.getElementById("remember");
 
+            if (!usernameInput || !passwordInput || !message) {
+                return;
+            }
+
             const username =
                 usernameInput.value.trim();
 
@@ -61,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 passwordInput.value.trim();
 
             message.textContent = "";
+
 
             // ==========================================
             // EMPTY FIELD VALIDATION
@@ -124,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 // ==========================================
-                // GO TO DASHBOARD
+                // DASHBOARD
                 // ==========================================
 
                 window.location.href =
@@ -156,9 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                if (
-                    passwordField.type === "password"
-                ) {
+                if (passwordField.type === "password") {
 
                     passwordField.type = "text";
 
@@ -167,19 +170,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 } else {
 
-                    passwordField.type =
-                        "password";
+                    passwordField.type = "password";
 
                     togglePassword.innerHTML =
                         '<i class="bi bi-eye"></i>';
                 }
+
             }
         );
     }
 
 
     // ==========================================
-    // REMEMBER ME - RESTORE USERNAME
+    // REMEMBER ME RESTORE
     // ==========================================
 
     const remember =
@@ -224,7 +227,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 event.preventDefault();
 
-                // Clear login session
                 localStorage.removeItem(
                     "isLoggedIn"
                 );
@@ -233,7 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     "username"
                 );
 
-                // Go to login
                 window.location.replace(
                     "login.html"
                 );
@@ -243,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // DISPLAY LOGGED-IN USERNAME
+    // DISPLAY USERNAME
     // ==========================================
 
     const loggedUsername =
@@ -304,8 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ==========================================
 
     if (
-        localStorage.getItem("darkMode") ===
-        "true"
+        localStorage.getItem("darkMode") === "true"
     ) {
 
         document.body.classList.add(
@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // ==========================================
-// BACK BUTTON / BFCACHE PROTECTION
+// BFCACHE / BACK BUTTON PROTECTION
 // ==========================================
 
 window.addEventListener("pageshow", function () {
